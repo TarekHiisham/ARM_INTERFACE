@@ -7,11 +7,11 @@
 void interrupts_init(void)
 {
     /*choose priority Group number and subgroup*/
-    APINT = 0x05FA | GROUP1_SUB8   ;
+    APINT = 0x05FA | GROUP2_SUB4   ;
 
     /*setting priority of Subgroup for SYSTICK*/
-    PRI(3) |= 0x0 ;
-    
+    PRI(3) |= 0xE0000000 ;
+    PRI(7) |= 0x00000000 ;
     /*Return Function*/
     return;
 }
@@ -29,7 +29,11 @@ void interrupts_Enable(u8_t au8_interruptPeripheral)
 
         /*Breaking switch*/
         break;
-       
+    case GPIO_PORTF :
+        EN(0) |=  0x40000000 ;  
+        
+        break;
+
     default:
         break;
     }

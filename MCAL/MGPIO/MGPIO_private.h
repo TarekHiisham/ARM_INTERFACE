@@ -31,6 +31,24 @@
 /*GPIO Data (GPIODATA)*/
 #define PORTF_GPIODATA(PIN)               *((volatile u32_t *)(GPIO_PORTF_Base_ADDR | (PIN << SHIFTTING_BIT_MASK)))
 
+/* GPIO Interrupt Sense (GPIOIS)*/
+#define PORTF_GPIOIS                      *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x404))
+
+/*GPIO Interrupt Mask (GPIOIM)*/
+#define PORTF_GPIOIM                      *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x410))
+
+/*GPIO Interrupt Both Edges (GPIOIBE)*/
+#define PORTF_GPIOIBE                     *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x408))
+
+/*GPIO Lock (GPIOLOCK)*/
+#define PORTF_GPIOLOCK                    *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x520))
+
+/*: GPIO Masked Interrupt Status (GPIOMIS)*/
+#define PORTF_GPIOMIS                     *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x418))
+
+/*GPIO Interrupt Clear (GPIOICR)*/
+#define PORTF_GPIOICR                     *((volatile u32_t *)(GPIO_PORTF_Base_ADDR + 0x41C))
+
 #endif  /* __MGPIO_PRIVATE_H__ */
 
 /**********************************************************************************************************************

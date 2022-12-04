@@ -28,6 +28,14 @@
  *********************************************************************************************************************/
 
 /**
+ * @brief This Function to set pins of led as output
+ * 
+ * @param au8_Led 
+ */
+void hled_init(u8_t au8_Led);
+
+
+/**
  * @brief This Function to Led on
  * 
  * @param au8_Led 

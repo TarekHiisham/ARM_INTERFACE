@@ -17,6 +17,7 @@
 /**********************************************************************************************************************
  *  GLOBAL MACROS
  *********************************************************************************************************************/
+
 #define PORTA        (0)
 #define PORTB        (1)
 #define PORTC        (2)
@@ -33,11 +34,14 @@
 #define PIN6         (0x40)         
 #define PIN7         (0x80)         
 
-#define INPUT       (0)
-#define OUTPUT      (1)
+#define INPUT                (0)
+#define OUTPUT               (1)
 
-#define LOW         (0) 
-#define HIGH        (1) 
+#define LOW                  (0) 
+#define HIGH                 (1) 
+
+#define BOTH_EDGES           (0)
+
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
@@ -50,6 +54,9 @@ void mgpio_GetPinValue  (u8_t au8_Port , u8_t au8_Pin , u8_t* au8_Value);
 
 void mgpio_TogglePinValue (u8_t au8_Port , u8_t au8_Pin );
 
+void mgpio_enableinterrupt (u8_t au8_Port , u8_t au8_Pin , u8_t au8_Mode);
+
+void mgpio_takeAction( void(*ptr_action2)(void) , void(*ptr_action1)(void));
  
 #endif  /* __MGPIO_interface_H__ */
 

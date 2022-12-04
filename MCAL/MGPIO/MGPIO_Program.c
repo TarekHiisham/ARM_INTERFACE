@@ -3,6 +3,9 @@
 #include "MGPIO_cfg.h"
 #include "MGPIO_interface.h"
 
+static void(*gptr_function1)(void) = NULL;
+static void(*gptr_function2)(void) = NULL;
+
 void mgpio_SetPinStatus(u8_t au8_Port , u8_t au8_Pin , u8_t au8_Status)
 {
     /*checking the port by if elif */
@@ -13,24 +16,24 @@ void mgpio_SetPinStatus(u8_t au8_Port , u8_t au8_Pin , u8_t au8_Status)
             {
             case OUTPUT:
 
-                /*Enable Pin as digital I/O*/
-                PORTF_GPIODEN |= au8_Pin ; 
-
                 /*setting Pin Direction*/
                 PORTF_GPIODIR |= au8_Pin ;
 
+                /*Enable Pin as digital I/O*/
+                PORTF_GPIODEN |= au8_Pin ; 
+                
                 /*Breaking Switch*/
                 break;
 
             case INPUT:
 
+                /*setting Pin Direction*/
+                PORTF_GPIODIR &= (~au8_Pin) ;
+
                 /*Enable Pin as digital I/O*/
                 PORTF_GPIODEN |= au8_Pin ; 
 
-                /*setting Pin Direction*/
-                PORTF_GPIODIR &= ~au8_Pin ;
-
-
+                /*Breaking Switch*/
                 break;
 
             default:
@@ -94,7 +97,7 @@ void mgpio_GetPinValue  (u8_t au8_Port , u8_t au8_Pin , u8_t* au8_Value)
     if(au8_Port == PORTF)
     { 
         /*Checking the PINx value for a specified port pin if it's LOW or not*/
-        if((PORTF_GPIODATA (au8_Pin) & au8_Pin) == HIGH)
+        if((PORTF_GPIODATA (au8_Pin) & (u32_t)au8_Pin) == (0xFFFF & (u32_t)au8_Pin ))
         {
             /*getting high from pin*/
             *au8_Value  = HIGH ; 
@@ -111,3 +114,50 @@ void mgpio_GetPinValue  (u8_t au8_Port , u8_t au8_Pin , u8_t* au8_Value)
 
 }
 
+void mgpio_enableinterrupt (u8_t au8_Port , u8_t au8_Pin , u8_t au8_Mode )
+{
+    if (au8_Port == PORTF)
+    {
+
+        switch (au8_Mode)
+        {
+
+        case BOTH_EDGES:
+
+            PORTF_GPIOLOCK &= 0 ;
+            PORTF_GPIOIM   |= 0x00  ;
+            PORTF_GPIOIS   |= au8_Pin ;
+            PORTF_GPIOIBE  |= au8_Pin ;
+            PORTF_GPIOIM   |= au8_Pin  ;
+
+            break;
+        
+        default:
+            break;
+        }
+    }
+
+    /*Return Function*/
+    return;
+}
+void mgpio_takeAction( void(*ptr_action2)(void) , void(*ptr_action1)(void))
+{
+    gptr_function1 = ptr_action1 ;
+    gptr_function2 = ptr_action2 ;
+
+    return ;
+}
+
+void GPIOF_Handler(void)
+{
+    if((PORTF_GPIOMIS & 0x01) == 0x01)
+    {
+        gptr_function1(); 
+        PORTF_GPIOICR |= 0x01 ;
+    }
+    else if((PORTF_GPIOMIS & 0x10) == 0x10)
+    {
+        gptr_function2(); 
+        PORTF_GPIOICR |= 0x10 ;
+    }
+}

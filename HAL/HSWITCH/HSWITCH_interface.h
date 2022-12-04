@@ -2,24 +2,25 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  MINT_interface.h
- *       Module:  Interrupts
+ *         File:  HSWITCH_interface.h
+ *       Module:  switch Peripheral
  *
- *  Description:  This file to interface intterupts and exceptions 
- *                from external periphrals 
+ *  Description:  This file to interface switch 
+ *                
  *                    
  *  
  *********************************************************************************************************************/
 
-#ifndef  __MINT_interface_H__
-#define  __MINT_interface_H__
- 
- 
-enum vect_num 
-{
-    SYSTICK = 15 ,
-    GPIO_PORTF = 46
-};
+#ifndef  __HSWITCH_interface_H__
+#define  __HSWITCH_interface_H__
+
+/**********************************************************************************************************************
+ *  GLOBAL MACROS
+ *********************************************************************************************************************/
+
+#define switch1        (0)
+#define switch2        (1)
+
 
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION PROTOTYPES
@@ -27,21 +28,23 @@ enum vect_num
 
 
 /**
- * @brief This Function to init global interrupts by classifying them to Groups / SubGroups
+ * @brief This Function to set pins of switches as input
  * 
+ * @param au8_switch 
  */
-void interrupts_init(void);
+void hswitch_init(u8_t au8_switch);
 
 /**
- * @brief This Function Enable Specfied Interrupt for Peripheral
+ * @brief This Function to get switch status 
  * 
- * @param au8_interruptPeripheral 
+ * @param au8_switch 
  */
-void interrupts_Enable(u8_t au8_interruptPeripheral);
+void hswitch_status (u8_t au8_switch ,u8_t* pu8_status); 
 
- 
-#endif  /* __MINT_interface_H__ */
+
+
+#endif  /* __HSWITCH_interface_H__ */
 
 /**********************************************************************************************************************
- *  END OF FILE: MINT_interface_H
+ *  END OF FILE: HSWITCH_interface_H
  *********************************************************************************************************************/

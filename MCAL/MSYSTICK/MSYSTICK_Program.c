@@ -16,7 +16,7 @@ void msystick_init(void)
     STCTRL |= INT_ENABLE ;
 
     /*Reloaded The value "minimum default one second" */
-     STRELOAD  = 50 ;  
+     STRELOAD  = 15999999 ;  
 	//STRELOAD  = DEFAULT_1s ;
 
     /*Clear the STCURRENT register by writing to it with any value*/
